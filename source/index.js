@@ -25,4 +25,4 @@ module.exports = function merkleize(form) {
       .set('content', merkleizedContent)
       .set('digest', hash(normalized))})}
 
-module.exports.version = '0.0.0';
+module.exports.version = '0.1.0';
