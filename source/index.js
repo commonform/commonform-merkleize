@@ -2,17 +2,19 @@ var Immutable = require('immutable')
 var hash = require('commonform-hash')
 var isSubForm = require('commonform-predicate').subForm
 
-var isMap = Immutable.Map.isMap.bind(Immutable.Map)
+var isMap = Immutable.Map.isMap;
 var emptyMap = Immutable.Map()
 
-module.exports = function merkleize(form, prior, priorResult) {
+module.exports = function merkleize(form, priorForm, priorResult) {
   if (
-    prior !== false &&
+    priorForm !== false &&
     priorResult !== false &&
-    Immutable.is(form, prior)) {
+    Immutable.is(form, priorForm)) {
       return priorResult}
 
   else {
+    // Compute a map of the form's content in which each sub-form's form
+    // object is decorated with its digest.
     var merkleizedContent =
       form
         .get('content')
@@ -20,17 +22,20 @@ module.exports = function merkleize(form, prior, priorResult) {
           return isSubForm(element) ?
             // A sub-form that needs a hash
             element.update('form', function(subForm) {
-              if (prior && priorResult) {
+              if (priorForm && priorResult) {
                 var keyArray = ['content', '' + index, 'form']
                 return merkleize(
                   subForm,
-                  prior.getIn(keyArray, false),
+                  priorForm.getIn(keyArray, false),
                   priorResult.getIn(keyArray, false))}
               else {
                 return merkleize(subForm, false, false)}}) :
             // Not a sub-form that needs a hash
             element})
 
+    // Starting from the Merkle-ized content array, strip away all
+    // embeeded content, creating the content array of a normalized
+    // form suitable for hashing.
     var normalized =
       form.set(
         'content',
@@ -40,6 +45,8 @@ module.exports = function merkleize(form, prior, priorResult) {
               element.set('form', element.getIn(['form', 'digest'])) :
               element}))
 
+    // Return an object containing the digest of this form, as well as a
+    // map of sub-forms' hashes, if any.
     return emptyMap.withMutations(function(returned) {
 
       returned.set('digest', hash(normalized))
@@ -52,6 +59,8 @@ module.exports = function merkleize(form, prior, priorResult) {
               reduction},
           emptyMap)
 
+      // Add the map of sub-forms' digests only if there actually are
+      // sub-forms.
       if (contentMap.count() > 0) {
         returned.set('content', contentMap)}})}}
 
