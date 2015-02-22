@@ -10,7 +10,7 @@ describe('merkleize', function() {
       merkleize)
       .to.be.a('function')})
 
-  it('decorates a form with its digest', function() {
+  it('hashes its argument', function() {
     expect(
       merkleize(Immutable.fromJS({content: ['A']})).toJS())
       .to.eql({
@@ -18,7 +18,7 @@ describe('merkleize', function() {
           'eb94d16f10023fe29cb75d02a60eb531' +
           'ffedcc7bdf7cc9aba8c25c962116b1f9'})})
 
-  it('decorates sub-forms with their digests', function() {
+  it('hashes its argument\'s sub-forms', function() {
     expect(
       merkleize(
         Immutable.fromJS({
@@ -41,7 +41,7 @@ describe('merkleize', function() {
           '84fd358ac5b0109eaca10d1224e1c52a' +
           'a1d2de4f0b6a741303c05b318c55b326'})})
 
-  it('accepts an a prior input-output pair to start from', function() {
+  it('accepts an a prior input-output pair to reuse', function() {
     expect(
       merkleize(
         // Updated form with one different sub-form
@@ -103,4 +103,28 @@ describe('merkleize', function() {
           // Since we're using a fake digest to ensure its value is
           // reused, the digest we expect is different:
           '66ece68994b874e627c34bd33333d00cf' +
-          '6ea4a651ab2a4fe471fca2ed84bdc27'})})})
+          '6ea4a651ab2a4fe471fca2ed84bdc27'})})
+
+  describe('preservation of object properties', function() {
+    it('respects form properties', function() {
+      expect(
+        merkleize(
+          Immutable.fromJS({
+            conspicuous: 'true',
+            content: ['A']}))
+        .get('digest'))
+      .to.equal(
+        '99800479ccdc90c45bbdbef2dc4690f3' +
+        '6aa8729d22da9d8274f3bfd9716d8268')})
+
+    it('respects sub-form properties', function() {
+      expect(
+        merkleize(
+          Immutable.fromJS({
+            content: [{
+              summary: 'A',
+              form: {content: ['A']}}]}))
+        .get('digest'))
+      .to.equal(
+        '9d66df1e4d4d1522d164684c7c6e4404' +
+        'af1df42e64b02e585741690b26063321')})})})
