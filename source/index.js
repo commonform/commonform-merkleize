@@ -64,4 +64,4 @@ module.exports = function merkleize(form, priorForm, priorResult) {
       if (contentMap.count() > 0) {
         returned.set('content', contentMap)}})}}
 
-module.exports.version = '0.1.0'
+module.exports.version = '0.1.1'
