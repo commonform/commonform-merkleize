@@ -1,0 +1,46 @@
+{
+  "name": "commonform-merkleize",
+  "description": "decoreate nested forms with their digests",
+  "version": "0.0.0",
+  "author": {
+    "name": "Kyle E. Mitchell",
+    "email": "kyle@kemitchell.com",
+    "url": "http://kemitchell.com/"
+  },
+  "bugs": {
+    "url": "https://github.com/commonform/commonform-merkleize/issues"
+  },
+  "dependencies": {
+    "commonform-hash": "^0.3.0",
+    "commonform-predicate": "^0.1.0"
+  },
+  "devDependencies": {
+    "chai": "^1.10.0",
+    "check-versions": "0.0.1",
+    "immutable": "^3.6.2",
+    "istanbul": "^0.3.5",
+    "jshint": "^2.6.0",
+    "mocha": "^2.1.0"
+  },
+  "homepage": "https://github.com/commonform/commonform-merkleize",
+  "keywords": [
+    "contracts",
+    "document assembly",
+    "knowledge management",
+    "law"
+  ],
+  "license": "Apache-2.0",
+  "main": "source/index",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/commonform/commonform-merkleize.git"
+  },
+  "scripts": {
+    "check": "check-versions --check-module",
+    "coverage": "istanbul cover _mocha -- && istanbul check-coverage coverage/coverage.json",
+    "lint": "jshint source test",
+    "pre-commit": "npm run lint && npm run check && npm run coverage",
+    "test": "mocha",
+    "travis-ci": "npm run pre-commit"
+  }
+}
