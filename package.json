@@ -1,6 +1,6 @@
 {
   "name": "commonform-merkleize",
-  "description": "decoreate nested forms with their digests",
+  "description": "decorate nested forms with their digests",
   "version": "0.0.0",
   "author": {
     "name": "Kyle E. Mitchell",
