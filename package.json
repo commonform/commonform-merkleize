@@ -1,6 +1,6 @@
 {
   "name": "commonform-merkleize",
-  "description": "decorate nested forms with their digests",
+  "description": "compute a tree of hashes for a nested form",
   "version": "0.1.0",
   "author": {
     "name": "Kyle E. Mitchell",

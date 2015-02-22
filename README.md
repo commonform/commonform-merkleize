@@ -1,4 +1,4 @@
 commonform-merkleize
 ====================
 
-Decorate nested forms with their digests
+compute a tree of hashes for a nested form
