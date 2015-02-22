@@ -14,7 +14,6 @@ describe('merkleize', function() {
     expect(
       merkleize(Immutable.fromJS({content: ['A']})).toJS())
       .to.eql({
-        content: ['A'],
         digest:
           'eb94d16f10023fe29cb75d02a60eb531' +
           'ffedcc7bdf7cc9aba8c25c962116b1f9'})})
@@ -27,19 +26,17 @@ describe('merkleize', function() {
             {form: {content: ['A']}},
             {form: {content: ['B']}}]})).toJS())
       .to.eql({
-        content: [
-          {
+        content: {
+          0: {
             form: {
-              content: ['A'],
               digest:
                 'eb94d16f10023fe29cb75d02a60eb531' +
                 'ffedcc7bdf7cc9aba8c25c962116b1f9'}},
-          {
+          1: {
             form: {
-              content: ['B'],
               digest:
                 '5e5d60591967ee74ef2d324abc4b4485'+
-                '78a186f26647f2aaa7249298696e6f22'}}],
+                '78a186f26647f2aaa7249298696e6f22'}}},
         digest:
           '84fd358ac5b0109eaca10d1224e1c52a' +
           'a1d2de4f0b6a741303c05b318c55b326'})})
@@ -65,8 +62,8 @@ describe('merkleize', function() {
           digest:
             '9b95d3e47c2233b2c7c4fce356ff01ab' +
             'f1eb85cc1fffc2710f52ea26dbfcd20b',
-          content: [
-            {
+          content: {
+            0: {
               form: {
                 // This digest should be reused, since the same sub-form
                 // appears in the same position within its parent's
@@ -77,29 +74,26 @@ describe('merkleize', function() {
                   // 'eb94d16f10023fe29cb75d02a60eb531' +
                   // 'ffedcc7bdf7cc9aba8c25c962116b1f9',
                   //
-                  // Here, we use a dummy value, so our test can ensure
-                  // that it is being reused.
-                  'previously computed digest',
-                content: ['A']}},
-            {
+                  // Here, we use a dummy value, so we check to make
+                  // sure can sure the algorithm reuses the value we
+                  // provide.
+                  'previously computed digest'}},
+            1: {
               form: {
                 // This digest should not be reused.
                 digest:
                   'eb94d16f10023fe29cb75d02a60eb531' +
-                  'ffedcc7bdf7cc9aba8c25c962116b1f9',
-                content: ['A']}}]})).toJS())
+                  'ffedcc7bdf7cc9aba8c25c962116b1f9'}}}})).toJS())
       .to.eql({
-        content: [
-          {
+        content: {
+          0: {
             form: {
-              content: ['A'],
               digest: 'previously computed digest'}},
-          {
+          1: {
             form: {
-              content: ['B'],
               digest:
                 '5e5d60591967ee74ef2d324abc4b4485'+
-                '78a186f26647f2aaa7249298696e6f22'}}],
+                '78a186f26647f2aaa7249298696e6f22'}}},
         digest:
           // The actual digest would be:
           //
@@ -107,6 +101,6 @@ describe('merkleize', function() {
           // 'a1d2de4f0b6a741303c05b318c55b326'
           //
           // Since we're using a fake digest to ensure its value is
-          // reused, the digest we actually expect is:
+          // reused, the digest we expect is different:
           '66ece68994b874e627c34bd33333d00cf' +
           '6ea4a651ab2a4fe471fca2ed84bdc27'})})})
