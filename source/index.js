@@ -1,8 +1,8 @@
 var Immutable = require('immutable')
 var hash = require('commonform-hash')
-var isSubForm = require('commonform-predicate').subForm
+var isInclusion = require('commonform-predicate').inclusion
 
-var isMap = Immutable.Map.isMap;
+var isMap = Immutable.Map.isMap
 var emptyMap = Immutable.Map()
 
 module.exports = function merkleize(form, priorForm, priorResult) {
@@ -19,7 +19,7 @@ module.exports = function merkleize(form, priorForm, priorResult) {
       form
         .get('content')
         .map(function(element, index) {
-          return isSubForm(element) ?
+          return isInclusion(element) ?
             // A sub-form that needs a hash
             element.update('form', function(subForm) {
               if (priorForm && priorResult) {
@@ -41,7 +41,7 @@ module.exports = function merkleize(form, priorForm, priorResult) {
         'content',
         merkleizedContent
           .map(function(element) {
-            return isSubForm(element) ?
+            return isInclusion(element) ?
               element.set('form', element.getIn(['form', 'digest'])) :
               element}))
 

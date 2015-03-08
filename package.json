@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "commonform-hash": "^0.3.0",
-    "commonform-predicate": "^0.1.0",
+    "commonform-predicate": "^0.2.0",
     "immutable": "^3.6.2"
   },
   "devDependencies": {
