@@ -1,7 +1,7 @@
 {
   "name": "commonform-merkleize",
   "description": "compute a tree of hashes for a Common Form",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "author": "Kyle E. Mitchell <kyle@kemitchell.com> (https://kemitchell.com/)",
   "dependencies": {
     "commonform-normalize": "~0.5.0"
