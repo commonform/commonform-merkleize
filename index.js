@@ -14,7 +14,7 @@ function recurse (normalized, digest) {
         return content
       }, {})
     }
-  } else return {digest: digest}
+  } else return { digest: digest }
 }
 
 function merkleize (form) {
